@@ -19,6 +19,25 @@ def run(command, environment):
         raise RuntimeError("Build command failed or reported warnings")
 
 
+def prepare_bundle(enabled):
+    """Fill or empty android/app/bundle-assets/bundle. The app installs these files on first start."""
+    target = ROOT / "android/app/bundle-assets"
+    if target.exists():
+        shutil.rmtree(target)
+    if not enabled:
+        return
+    runtime = ROOT / "release/pocket-runtime.zip"
+    voices = sorted((ROOT / "voices").glob("kyutai-*.pttsvoice"))
+    if not runtime.is_file():
+        raise FileNotFoundError(f"{runtime}. Run tools/package_runtime.py first.")
+    if len(voices) != 15:
+        raise RuntimeError(f"Expected 15 supplied voices, found {len(voices)}")
+    (target / "bundle/voices").mkdir(parents=True)
+    shutil.copyfile(runtime, target / "bundle/pocket-runtime.zip")
+    for voice in voices:
+        shutil.copyfile(voice, target / "bundle/voices" / voice.name)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sdk", required=True, type=Path)
@@ -28,6 +47,8 @@ def main():
     parser.add_argument("--library", required=True, type=Path)
     parser.add_argument("--maven-cache", type=Path)
     parser.add_argument("--allow-downloads", action="store_true")
+    parser.add_argument("--bundle", action="store_true",
+                        help="Put release/pocket-runtime.zip and voices/*.pttsvoice inside the APK")
     args = parser.parse_args()
     if os.name != "nt":
         raise RuntimeError("This build helper supports Windows. Other build hosts are not verified.")
@@ -51,6 +72,7 @@ def main():
          "-Wall", "-Wextra", "-Werror", "-Wl,--no-undefined", "-Wl,-z,max-page-size=16384",
          "-I", str(ROOT / "native/pocket_ffi"), str(ROOT / "native/android/pocket_jni.cpp"),
          "-L", str(libraries), "-lpocket_ffi", "-o", str(libraries / "libpocket_jni.so")], environment)
+    prepare_bundle(args.bundle)
     command = [str(args.gradle.resolve()), "--no-daemon", "--max-workers=2", "--console=plain", "--warning-mode=all"]
     if not args.allow_downloads:
         command.append("--offline")

@@ -15,4 +15,5 @@ local.properties
 *.pttsvoice
 !voices/kyutai-*.pttsvoice
 android/app/src/main/jniLibs/
+android/app/bundle-assets/
 release/

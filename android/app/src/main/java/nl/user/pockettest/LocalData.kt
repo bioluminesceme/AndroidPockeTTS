@@ -5,6 +5,7 @@ import android.net.Uri
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
+import java.io.InputStream
 import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.security.MessageDigest
@@ -32,10 +33,11 @@ class LocalData(private val context: Context) {
         moveVoiceToTrash(profiles, voice.directory)
     }
 
-    private fun extract(uri: Uri, limits: Map<String, Long>): File {
+    private fun open(uri: Uri): InputStream = requireNotNull(context.contentResolver.openInputStream(uri)) { "Cannot open the selected file" }
+
+    private fun extract(input: InputStream, limits: Map<String, Long>): File {
         val stage = File(context.cacheDir, "import-${UUID.randomUUID()}").apply { check(mkdirs()) }
         val found = mutableSetOf<String>()
-        val input = requireNotNull(context.contentResolver.openInputStream(uri)) { "Cannot open the selected file" }
         ZipInputStream(input).use { zip ->
             while (true) {
                 val entry = zip.nextEntry ?: break
@@ -64,10 +66,13 @@ class LocalData(private val context: Context) {
         return stage
     }
 
-    fun importRuntime(uri: Uri): String {
+    fun importRuntime(uri: Uri): String = importRuntime(open(uri))
+
+    /** Reads a runtime ZIP from [input] and closes it. Used for picked files and for a runtime bundled in the APK. */
+    fun importRuntime(input: InputStream): String {
         val files = contract.getJSONObject("files")
         val limits = files.keys().asSequence().associateWith { files.getJSONObject(it).getLong("size") }
-        val stage = extract(uri, limits)
+        val stage = extract(input, limits)
         verifyRuntime(stage)
         if (runtime.exists()) verifyRuntime(runtime)
         else check(stage.renameTo(runtime)) { "Cannot save the runtime" }
@@ -84,8 +89,11 @@ class LocalData(private val context: Context) {
         }
     }
 
-    fun importVoice(uri: Uri): String {
-        val stage = extract(uri, mapOf("manifest.json" to 65536L, "speaker.safetensors" to 100L * 1024 * 1024))
+    fun importVoice(uri: Uri): String = importVoice(open(uri))
+
+    /** Reads one .pttsvoice ZIP from [input] and closes it. */
+    fun importVoice(input: InputStream): String {
+        val stage = extract(input, mapOf("manifest.json" to 65536L, "speaker.safetensors" to 100L * 1024 * 1024))
         val voice = validateVoice(stage)
         val speakerHash = hash(voice.speaker)
         val destination = File(profiles, hash(File(stage, "manifest.json")))

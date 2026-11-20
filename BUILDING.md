@@ -72,16 +72,20 @@ py tools/build_android.py --sdk $sdk --ndk $ndk --java-home $jdk --gradle $gradl
 
 An optional `--maven-cache PATH` uses a local Maven-layout repository. Without it, Gradle uses Google Maven and Maven Central, subject to offline mode.
 The helper copies the Rust library and NDK C++ runtime, compiles JNI, then builds the APK.
+Add `--bundle` to put `release/pocket-runtime.zip` and the 15 files in `voices/` inside the APK (about 320 MB). The app installs them on first start. Without `--bundle`, users import the runtime ZIP and voices from **Menu > Setup**.
 Output: `android/app/build/outputs/apk/release/app-release.apk`.
-The current release build uses the local Android debug signing key. A build on another computer will not update an installed APK signed by a different key.
-Keep signing keys private. A public binary release needs a deliberate signing and update policy.
+Signing: when `PTTS_KEYSTORE`, `PTTS_KEYSTORE_PASSWORD`, `PTTS_KEY_ALIAS`, and `PTTS_KEY_PASSWORD` are set, the release key signs the APK. Otherwise the local Android debug key signs it. An APK signed with a different key cannot update an installed one.
+Keep signing keys and passwords private. Never commit them.
 
 ## Prepare the model runtime
 
-Obtain these exact files from Kyutai after reviewing its model terms:
+Obtain these exact files from Kyutai. Neither repository needs an account or an agreement:
 
-- Model: `kyutai/pocket-tts`, revision `db04f0e653473e5c7333c69686ac92b7460b0c1d`, path `languages/english/model.safetensors`.
+- Model: `kyutai/pocket-tts-without-voice-cloning`, revision `a7056f505a4a8ca72d8b5fb1440071d6f1a35739`, path `languages/english/model.safetensors`.
 - Tokenizer: `kyutai/pocket-tts-without-voice-cloning`, revision `00eac05ed3d16bdc3f6b5d598874019c34a89214`, path `languages/english/tokenizer.json`.
+
+The supplied voices were encoded with Kyutai's gated `kyutai/pocket-tts` model (revision `db04f0e653473e5c7333c69686ac92b7460b0c1d`), which `runtime-contract.json` names as the voice identity.
+The ungated model differs only in the `mimi.encoder` tensors, which only voice cloning uses. On Windows both models produced the same audio for three voices, within one 16-bit PCM step, the same as two runs of one model.
 
 ```powershell
 py tools/package_runtime.py --model C:/Models/model.safetensors --tokenizer C:/Models/tokenizer.json

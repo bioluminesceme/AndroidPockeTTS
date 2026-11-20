@@ -20,7 +20,7 @@ I hear no quality difference between the two settings. I cannot test other phone
 
 ## Features
 
-- Fully offline. The app has no Internet permission. You copy the runtime ZIP and the voice files to the phone yourself.
+- Fully offline. The app has no Internet permission. The model and the 15 voices are inside the APK.
 - Speech starts almost at once, also after you change the voice.
 - EPUB chapters, DOCX headings, and TXT files.
 - The reading position is saved for each file name.
@@ -44,16 +44,15 @@ From my Motorola Edge 60 Pro, with Kyutai George. The book is Arthur Conan Doyle
 
 ## Install and use
 
-This repository does not contain an APK or the model weights. You build the APK and the runtime ZIP yourself. See [BUILDING.md](BUILDING.md).
+You need an ARM64 device with Android 8 (API 26) or newer, and about 650 MB of free storage.
 
-You need an ARM64 device with Android 8 (API 26) or newer, and about 220 MB of free storage for the runtime ZIP, plus space for the voices.
+1. Download the APK from the [Releases](../../releases) page. It contains the speech model and the 15 voices (about 320 MB).
+2. Open the APK on your phone and allow the installation. Android asks for this because the app does not come from the Play Store.
+3. Open PockeTTS. On first start, it sets up the model and the voices. This takes a moment.
+4. On a slower phone, select **Menu > Phone type > Slower phone (lighter model)**.
+5. Select **Menu > Open document**, choose a book, select a voice, and press **Play**.
 
-1. Install the APK.
-2. Copy `pocket-runtime.zip` and one or more files from [voices](voices) to the phone.
-3. Select **Menu > Setup > Import runtime ZIP** and select the runtime ZIP.
-4. Select **Menu > Setup > Import voice profiles** and select the `.pttsvoice` files.
-5. On a slower phone, select **Menu > Phone type > Slower phone (lighter model)**.
-6. Select **Menu > Open document**, choose a book, select a voice, and press **Play**.
+To build the APK yourself, see [BUILDING.md](BUILDING.md).
 
 ## Voices
 
@@ -85,9 +84,10 @@ Passing automated tests does not prove device compatibility or good speech quali
 | [Gabriel de Marmiesse's xn-ptts branch](https://github.com/gabrieldemarmiesse/xn-ptts/tree/7efa26973f81bba42cf2ace8da2c1eb9b605d54d) | commit `7efa26973f81bba42cf2ace8da2c1eb9b605d54d` | Native model operations. The dependency pinned by Kyutai, based on [Gradium's xn-ptts](https://github.com/gradium-ai/xn-ptts). MIT OR Apache-2.0. |
 | [Laurent Mazare's xn](https://github.com/LaurentMazare/xn) | 0.2.12 (Cargo.lock) | Tensor library used by the runtime. MIT OR Apache-2.0. |
 | [173 other Rust crates](licenses/rust-crates.md) | Cargo.lock | Compiled into the native library. Each keeps its own licence: mostly MIT and Apache-2.0; the Symphonia audio crates use MPL-2.0. |
+| [Kyutai Pocket TTS English model](https://huggingface.co/kyutai/pocket-tts-without-voice-cloning) | revision `a7056f505a4a8ca72d8b5fb1440071d6f1a35739` | Model weights and tokenizer, included unchanged in the release APK. CC BY 4.0. |
 | [Kyutai voice collection](https://huggingface.co/kyutai/tts-voices) | revision `323332d33f997de8394f24a193e1a76df720e01a` | Source recordings for the 15 supplied voices. Each voice has its own licence. |
 
-Model revision: `db04f0e653473e5c7333c69686ac92b7460b0c1d`. Tokenizer revision: `00eac05ed3d16bdc3f6b5d598874019c34a89214`.
+Tokenizer revision: `00eac05ed3d16bdc3f6b5d598874019c34a89214`.
 All checksums are in [runtime-contract.json](android/app/src/main/assets/runtime-contract.json). Full licence details are in [THIRD_PARTY.md](THIRD_PARTY.md).
 
 This project added:
@@ -104,4 +104,4 @@ The native library keeps the upstream Rust code. It is not a new speech engine. 
 
 PockeTTS-specific code uses the [MIT licence](LICENSE).
 Upstream code and the voices keep their own licences (see [THIRD_PARTY.md](THIRD_PARTY.md)).
-The model weights come from Kyutai. Follow Kyutai's model terms and voice-use restrictions.
+The model weights are Kyutai's work under CC BY 4.0. The release APK uses Kyutai's model without voice cloning. Follow Kyutai's prohibited-use terms: no voice impersonation or cloning without explicit and lawful consent.

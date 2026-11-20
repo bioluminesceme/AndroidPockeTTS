@@ -11,6 +11,12 @@ The original MIT terms are preserved in [licenses/pocket-tts-MIT.txt](licenses/p
 `native/provenance.json` records module checksums and whether each module differs from the pinned upstream source.
 PockeTTS adds the C interface, tensor validation, local file loader, JNI bridge, and Android reader. The model queue and missing-end-marker behavior differ from upstream.
 
+## Pocket TTS model weights
+
+The release APK contains Kyutai's English model and tokenizer, unchanged, from https://huggingface.co/kyutai/pocket-tts-without-voice-cloning (model revision `a7056f505a4a8ca72d8b5fb1440071d6f1a35739`, tokenizer revision `00eac05ed3d16bdc3f6b5d598874019c34a89214`).
+Licence: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Credit: Kyutai. The files are packed into `pocket-runtime.zip` with the configuration from `runtime-config/`; their checksums are in `runtime-contract.json`.
+Kyutai's model card prohibits voice impersonation or cloning without explicit and lawful consent. Kyutai publishes this model as the version without voice cloning, and the app cannot create voices from recordings.
+
 ## xn-ptts and xn
 
 The pinned dependency comes from Gabriel de Marmiesse's branch of [Gradium's xn-ptts](https://github.com/gradium-ai/xn-ptts).

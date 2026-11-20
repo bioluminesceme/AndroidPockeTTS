@@ -18,10 +18,24 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+    // tools/build_android.py --bundle copies the runtime ZIP and voices here. Empty for a source-only build.
+    sourceSets { main { assets.srcDirs += ['bundle-assets'] } }
+    androidResources { noCompress += ['zip', 'pttsvoice'] }
+    signingConfigs {
+        // A release key is used only when PTTS_KEYSTORE is set. Otherwise the local debug key signs the APK.
+        release {
+            if (System.getenv('PTTS_KEYSTORE')) {
+                storeFile = file(System.getenv('PTTS_KEYSTORE'))
+                storePassword = System.getenv('PTTS_KEYSTORE_PASSWORD')
+                keyAlias = System.getenv('PTTS_KEY_ALIAS')
+                keyPassword = System.getenv('PTTS_KEY_PASSWORD')
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled = false
-            signingConfig = signingConfigs.debug
+            signingConfig = System.getenv('PTTS_KEYSTORE') ? signingConfigs.release : signingConfigs.debug
         }
     }
 }

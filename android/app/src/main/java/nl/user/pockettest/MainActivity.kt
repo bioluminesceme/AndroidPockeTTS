@@ -478,6 +478,7 @@ class MainActivity : Activity() {
         restoreSelection(savedInstanceState)
         refreshVoices()
         TestState.onChange = stateChanged
+        installBundledContent()
         if (Build.VERSION.SDK_INT >= 33) requestPermissions(arrayOf("android.permission.POST_NOTIFICATIONS"), 20)
     }
 
@@ -600,6 +601,16 @@ class MainActivity : Activity() {
                 }
             } catch (error: Exception) { TestState.status = "ERROR: ${error.message}" }
             finally { runOnUiThread { importing = false; if (requestCode != 12) refreshVoices() } }
+        }
+    }
+
+    /** Installs a model and voices bundled in the APK on first start (github flavour only). */
+    private fun installBundledContent() {
+        importing = true
+        io.execute {
+            try { BundledContent.install(this)?.let { TestState.status = it } }
+            catch (error: Exception) { TestState.status = "ERROR: ${error.message}" }
+            finally { runOnUiThread { importing = false; refreshVoices() } }
         }
     }
 
