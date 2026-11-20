@@ -79,13 +79,10 @@ Keep signing keys and passwords private. Never commit them.
 
 ## Prepare the model runtime
 
-Obtain these exact files from Kyutai. Neither repository needs an account or an agreement:
+Obtain these exact files from Kyutai:
 
 - Model: `kyutai/pocket-tts-without-voice-cloning`, revision `a7056f505a4a8ca72d8b5fb1440071d6f1a35739`, path `languages/english/model.safetensors`.
 - Tokenizer: `kyutai/pocket-tts-without-voice-cloning`, revision `00eac05ed3d16bdc3f6b5d598874019c34a89214`, path `languages/english/tokenizer.json`.
-
-The supplied voices were encoded with Kyutai's gated `kyutai/pocket-tts` model (revision `db04f0e653473e5c7333c69686ac92b7460b0c1d`), which `runtime-contract.json` names as the voice identity.
-The ungated model differs only in the `mimi.encoder` tensors, which only voice cloning uses. On Windows both models produced the same audio for three voices, within one 16-bit PCM step, the same as two runs of one model.
 
 ```powershell
 py tools/package_runtime.py --model C:/Models/model.safetensors --tokenizer C:/Models/tokenizer.json
