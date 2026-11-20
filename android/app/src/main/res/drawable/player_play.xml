@@ -1,0 +1,7 @@
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="#55001A23">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/player_accent" />
+        </shape>
+    </item>
+</ripple>

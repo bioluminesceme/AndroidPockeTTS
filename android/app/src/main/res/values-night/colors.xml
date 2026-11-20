@@ -1,0 +1,10 @@
+<resources>
+    <color name="player_background">#000000</color>
+    <color name="player_surface">#12191E</color>
+    <color name="player_text">#EDF3F6</color>
+    <color name="player_muted">#A5B4BD</color>
+    <color name="player_accent">#35C2EA</color>
+    <color name="player_on_accent">#001A23</color>
+    <color name="player_highlight">#123D4D</color>
+    <color name="player_stroke">#50606B</color>
+</resources>

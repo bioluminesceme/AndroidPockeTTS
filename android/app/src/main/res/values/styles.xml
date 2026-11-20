@@ -1,0 +1,15 @@
+<resources>
+    <style name="PlayerTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">@color/player_accent</item>
+        <item name="android:windowBackground">@color/player_background</item>
+        <item name="android:colorBackground">@color/player_background</item>
+        <item name="android:textColorPrimary">@color/player_text</item>
+        <item name="android:textColorSecondary">@color/player_muted</item>
+        <item name="android:statusBarColor">@color/player_background</item>
+        <item name="android:navigationBarColor">@color/player_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:colorButtonNormal">@color/player_surface</item>
+    </style>
+</resources>

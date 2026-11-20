@@ -1,0 +1,68 @@
+[
+  {
+    "file": "native/engine/src/audio.rs",
+    "sha256": "22cb27da0f0b816ee0e868e2427099505dccf4d48c848e8c9e6011d3093dafb0",
+    "origin": "Kyutai Pocket TTS",
+    "modified": false
+  },
+  {
+    "file": "native/engine/src/config.rs",
+    "sha256": "9b952e0336565032ebee6ad6d59ca725b2931fe575e34ac5c1c551644ed3534a",
+    "origin": "Kyutai Pocket TTS",
+    "modified": false
+  },
+  {
+    "file": "native/engine/src/defaults.rs",
+    "sha256": "d049465d04e32f02f0c1043f0c1f93a663beace96abe855e31004c3067245667",
+    "origin": "Kyutai Pocket TTS",
+    "modified": false
+  },
+  {
+    "file": "native/engine/src/ffi.rs",
+    "sha256": "2e72f91c0980df787a660fef8959d15a1a3b5b3e63ef754c5aba5fc06919cf06",
+    "origin": "PockeTTS",
+    "modified": true
+  },
+  {
+    "file": "native/engine/src/lib.rs",
+    "sha256": "fcba7f42b4cfde08f36991b4035239e077f450dbd657a2956ba6e5766adbd140",
+    "origin": "PockeTTS",
+    "modified": true
+  },
+  {
+    "file": "native/engine/src/model.rs",
+    "sha256": "788508fbee101a96a65bc7095c26e78522aac9de2e1afe2de3e94b669c23333a",
+    "origin": "Kyutai Pocket TTS",
+    "modified": true
+  },
+  {
+    "file": "native/engine/src/rng.rs",
+    "sha256": "93795585b2f2fe06db706b3eae181798f7aca29917deeaa3fdb54dae2909f6a3",
+    "origin": "Kyutai Pocket TTS",
+    "modified": false
+  },
+  {
+    "file": "native/engine/src/tensor_validation.rs",
+    "sha256": "0f29e088fd795c9e07a4be3a532cb5afce4a9324d91bb252022ca545b1f8eeda",
+    "origin": "PockeTTS",
+    "modified": true
+  },
+  {
+    "file": "native/engine/src/text.rs",
+    "sha256": "dbdbb2d070b280109b0ea45c0b39ef8b90d66df3f387e71ab40db940a1ab0172",
+    "origin": "Kyutai Pocket TTS",
+    "modified": false
+  },
+  {
+    "file": "native/engine/src/tokenizer.rs",
+    "sha256": "6a773be3cdd1a1b25e2de728d844f662dfbc1975767fe59b094c6a5bcbef5103",
+    "origin": "Kyutai Pocket TTS",
+    "modified": false
+  },
+  {
+    "file": "native/engine/src/weights.rs",
+    "sha256": "65d1488fd4b2cccccd5a52a7bca6a079145d999594e50542b96d20e5b1833aff",
+    "origin": "Kyutai Pocket TTS",
+    "modified": false
+  }
+]

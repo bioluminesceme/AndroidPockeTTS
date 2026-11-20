@@ -1,0 +1,12 @@
+<resources>
+    <!-- Light theme: black on white for e-ink screens. Dark theme is in values-night. -->
+    <color name="launcher_background">#174F59</color>
+    <color name="player_background">#FFFFFF</color>
+    <color name="player_surface">#E0E0E0</color>
+    <color name="player_text">#000000</color>
+    <color name="player_muted">#333333</color>
+    <color name="player_accent">#000000</color>
+    <color name="player_on_accent">#FFFFFF</color>
+    <color name="player_highlight">#C8C8C8</color>
+    <color name="player_stroke">#000000</color>
+</resources>

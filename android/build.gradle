@@ -1,0 +1,16 @@
+buildscript {
+    repositories {
+        if (System.getenv('SETUP_MAVEN_DIR')) { maven { url = uri(System.getenv('SETUP_MAVEN_DIR')) } }
+        else { google(); mavenCentral() }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.13.2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.3.10'
+    }
+}
+allprojects {
+    repositories {
+        if (System.getenv('SETUP_MAVEN_DIR')) { maven { url = uri(System.getenv('SETUP_MAVEN_DIR')) } }
+        else { google(); mavenCentral() }
+    }
+}
