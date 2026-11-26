@@ -20,6 +20,10 @@
     <string name="model_int8">Slower phone (lighter model)</string>
     <string name="model_speed_description">Choose the lighter setting if speech pauses between sentences.</string>
     <string name="model_speed_saved">Phone type saved. It applies at the next Play.</string>
+    <string name="voice_variation">Voice variation</string>
+    <string name="voice_variation_default">%1$s (default)</string>
+    <string name="voice_variation_description">Higher values vary rhythm and melody more between sentences. Lower values sound more even.</string>
+    <string name="voice_variation_saved">Voice variation saved. It applies at the next Play.</string>
     <string name="finishing_sentence">Finishing sentence</string>
     <string name="timer_range">Enter 1 to 180 minutes.</string>
     <string name="current_sentence">Following the audible sentence</string>

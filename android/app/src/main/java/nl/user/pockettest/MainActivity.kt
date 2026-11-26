@@ -630,6 +630,7 @@ class MainActivity : Activity() {
             menu.add(R.string.text_size)
             menu.add(R.string.follow_text)
             menu.add(R.string.model_speed)
+            menu.add(R.string.voice_variation)
             menu.add(R.string.diagnostics)
             setOnMenuItemClickListener { item ->
                 when (item.title.toString()) {
@@ -670,6 +671,29 @@ class MainActivity : Activity() {
                             .setSingleChoiceItems(modes, if (SavedPlaybackSettings.loadInt8(this@MainActivity)) 1 else 0) { dialog, index ->
                                 SavedPlaybackSettings.saveInt8(this@MainActivity, index == 1)
                                 TestState.status = getString(R.string.model_speed_saved)
+                                dialog.dismiss()
+                            }.setNegativeButton(android.R.string.cancel, null).show()
+                    }
+                    getString(R.string.voice_variation) -> {
+                        val values = VoiceVariation.TENTHS.toList()
+                        val labels = values.map {
+                            val value = String.format(java.util.Locale.ROOT, "%.1f", VoiceVariation.temperature(it))
+                            if (it == VoiceVariation.DEFAULT_TENTHS) getString(R.string.voice_variation_default, value) else value
+                        }.toTypedArray()
+                        val heading = LinearLayout(this@MainActivity).apply {
+                            orientation = LinearLayout.VERTICAL
+                            setPadding(dp(24), dp(20), dp(24), dp(4))
+                            addView(TextView(this@MainActivity).apply {
+                                setText(R.string.voice_variation); textSize = 20f; setTypeface(typeface, Typeface.BOLD)
+                            })
+                            addView(TextView(this@MainActivity).apply {
+                                setText(R.string.voice_variation_description); textSize = 14f; setPadding(0, dp(8), 0, 0)
+                            })
+                        }
+                        dialogBuilder().setCustomTitle(heading)
+                            .setSingleChoiceItems(labels, values.indexOf(SavedPlaybackSettings.loadVariationTenths(this@MainActivity))) { dialog, index ->
+                                SavedPlaybackSettings.saveVariationTenths(this@MainActivity, values[index])
+                                TestState.status = getString(R.string.voice_variation_saved)
                                 dialog.dismiss()
                             }.setNegativeButton(android.R.string.cancel, null).show()
                     }

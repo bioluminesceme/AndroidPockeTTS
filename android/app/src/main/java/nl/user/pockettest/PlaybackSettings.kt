@@ -14,3 +14,14 @@ data class PlaybackSettings(val speedPercent: Int = 100, val pitchSemitones: Int
         const val MIN_SPEED = 0.75f
     }
 }
+
+/** Voice variation is the model temperature in tenths. Higher values vary rhythm and melody more. */
+object VoiceVariation {
+    const val DEFAULT_TENTHS = 5
+    val TENTHS = 2..8
+
+    fun temperature(tenths: Int): Double {
+        require(tenths in TENTHS) { "Invalid voice variation" }
+        return tenths / 10.0
+    }
+}

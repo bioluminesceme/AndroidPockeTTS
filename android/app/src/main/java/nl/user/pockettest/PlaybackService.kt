@@ -242,7 +242,8 @@ class PlaybackService : Service() {
             val voice = data.validateVoice(profile)
             val config = File(data.runtime, data.configName)
             val int8 = SavedPlaybackSettings.loadInt8(this)
-            val settings = JSONObject(voice.settings).put("quantize", int8).toString()
+            val variation = VoiceVariation.temperature(SavedPlaybackSettings.loadVariationTenths(this))
+            val settings = JSONObject(voice.settings).put("quantize", int8).put("temperature", variation).toString()
             val key = config.absolutePath + "\n" + settings
             val reused = synchronized(handleLock) { handle != 0L && key == modelKey }
             if (!reused) {
@@ -258,7 +259,7 @@ class PlaybackService : Service() {
                 synchronized(handleLock) { handle = loaded; modelKey = key }
                 log.event("model_initialized", "model_initialization_ms" to (System.nanoTime() - start) / 1e6)
             }
-            log.event("model_ready", "model_reused" to reused, "speaker_sha256" to voice.manifest.getJSONObject("speaker").getString("sha256"), "settings" to voice.manifest.getJSONObject("settings"), "int8" to int8)
+            log.event("model_ready", "model_reused" to reused, "speaker_sha256" to voice.manifest.getJSONObject("speaker").getString("sha256"), "settings" to voice.manifest.getJSONObject("settings"), "int8" to int8, "temperature" to variation)
             if (stopped.get()) return
             PocketNative.selectVoice(handle, voice.speaker.absolutePath.encodeToByteArray())
             val rate = PocketNative.sampleRate(handle)

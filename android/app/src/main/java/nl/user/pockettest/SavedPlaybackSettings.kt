@@ -22,6 +22,17 @@ object SavedPlaybackSettings {
         context.getSharedPreferences("playback", Context.MODE_PRIVATE).edit().putBoolean("int8", enabled).apply()
     }
 
+    /** Voice variation in tenths of temperature. It replaces the profile temperature. */
+    fun loadVariationTenths(context: Context): Int {
+        val saved = context.getSharedPreferences("playback", Context.MODE_PRIVATE).getInt("variation_tenths", VoiceVariation.DEFAULT_TENTHS)
+        return if (saved in VoiceVariation.TENTHS) saved else VoiceVariation.DEFAULT_TENTHS
+    }
+
+    fun saveVariationTenths(context: Context, tenths: Int) {
+        VoiceVariation.temperature(tenths)
+        context.getSharedPreferences("playback", Context.MODE_PRIVATE).edit().putInt("variation_tenths", tenths).apply()
+    }
+
     /** Sleep timer minutes that each new Play starts. 0 means off. */
     fun loadTimerMinutes(context: Context): Long =
         context.getSharedPreferences("playback", Context.MODE_PRIVATE).getLong("timer_minutes", 0L).coerceIn(0L, 180L)
